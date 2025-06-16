@@ -1,0 +1,94 @@
+service: rag-ai-chatbot-lambda
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  memorySize: 1024
+  timeout: 900
+  environment:
+    OPENAI_API_KEY: ${file(.env.json):OPENAI_API_KEY}
+    PINECONE_API_KEY: ${file(.env.json):PINECONE_API_KEY}
+    BUCKET_NAME_FOR_KB: ${file(.env.json):BUCKET_NAME_FOR_KB}
+    # Removed AWS_REGION - it's automatically available in Lambda
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+          Resource: "arn:aws:s3:::${self:custom.s3BucketName}/*"
+  apiGateway:
+    binaryMediaTypes:
+      - "*/*" # or just 'application/pdf' if you want to be specific
+
+custom:
+  s3BucketName: rag-ai-chatbot-pdfs-${self:provider.stage}
+
+functions:
+  upload:
+    handler: src/handlers/upload.handler
+    events:
+      - http:
+          path: upload
+          method: post
+          cors: true
+
+  index:
+    handler: src/handlers/index.handler
+    events:
+      - http:
+          path: index
+          method: post
+          cors: true
+
+  ask:
+    handler: src/handlers/ask.handler
+    events:
+      - http:
+          path: ask
+          method: post
+          cors: true
+
+  status:
+    handler: src/handlers/status.handler
+    events:
+      - http:
+          path: status
+          method: get
+          cors: true
+
+  indexBatch:
+    handler: src/handlers/indexBatch.handler
+    events:
+      - http:
+          path: index-batch
+          method: post
+          cors: true
+
+resources:
+  Resources:
+    S3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+              AllowedOrigins:
+                - "*"
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
