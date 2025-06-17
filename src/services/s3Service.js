@@ -19,7 +19,7 @@ class S3ServiceClass {
 
   async uploadPDF(fileBuffer, fileName, contentType = "application/pdf") {
     try {
-      const key = `pdfs/${Date.now()}-${fileName}`;
+      const key = `pdfs/${fileName}`;
 
       console.log(`Uploading file: ${fileName} to bucket: ${this.bucketName}`);
 

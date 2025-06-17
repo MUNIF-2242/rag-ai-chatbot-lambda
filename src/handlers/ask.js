@@ -5,12 +5,19 @@ import { validateQuestion } from "../utils/validation.js";
 
 export const handler = async (event) => {
   try {
-    const { question } = JSON.parse(event.body || "{}");
+    let bodyString = event.body;
+
+    // Decode if base64 encoded
+    if (event.isBase64Encoded) {
+      bodyString = Buffer.from(event.body, "base64").toString("utf-8");
+    }
+
+    const { question } = JSON.parse(bodyString || "{}");
 
     validateQuestion(question);
 
     const embedding = await EmbeddingService.createEmbedding(question);
-    // Pass undefined for filter to avoid empty filter object requirement
+
     const queryRes = await PineconeService.queryVectors(
       embedding,
       undefined,

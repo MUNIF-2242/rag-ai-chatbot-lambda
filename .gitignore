@@ -26,3 +26,9 @@ Thumbs.db
 # IDEs
 .vscode/
 .idea/
+
+
+#npx serverless offline
+#serverless deploy --stage prod --region us-east-1 --aws-profile prodProfile
+#serverless remove --stage prod --region us-east-1 --aws-profile prodProfile
+
