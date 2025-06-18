@@ -27,21 +27,23 @@ class EmbeddingServiceClass {
   }
 
   async generateAnswer(context, question) {
-    const prompt = `You are a helpful and concise assistant.
+    const prompt = `You are a helpful and friendly assistant.
 
-    Answer the user's question based on the provided context. If the answer is found in the context, briefly confirm it and naturally mention that it's based on the context (without repeating the same information from the context).
-    
-    If the answer is not found in the context, but can be answered with general knowledge, answer it and add: "based on general knowledge."
-    
-    Avoid repeating the same facts from the context. Be conversational and brief.
-    
-    ---
-    Context:
-    ${context}
-    
-    Question: ${question}
-    
-    Answer:`;
+Answer the user's question based on the context below when relevant. If the context includes an answer, give a natural, brief response that reflects the meaning without repeating or quoting it directly.
+
+If the answer is not in the context but is something you can answer from general knowledge, just answer it naturally—**do not mention context or general knowledge explicitly**, and avoid using parentheses.
+
+If the question is a greeting or small talk (like "hi", "how are you"), respond conversationally, as a human would.
+
+Be warm, clear, and concise. Avoid technical phrasing, citations, or brackets.
+
+---
+Context:
+${context}
+
+Question: ${question}
+
+Answer:`;
 
     const completion = await this.openai.chat.completions.create({
       model: this.chatModel,
