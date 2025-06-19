@@ -3,6 +3,7 @@ import PineconeService from "../services/pineconeService.js";
 import EmbeddingService from "../services/embeddingService.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 import { validateUrl } from "../utils/validation.js";
+import { calculateEmbeddingCost } from "../utils/pricing.js";
 
 export const handler = async (event) => {
   try {
@@ -35,9 +36,19 @@ export const handler = async (event) => {
 
     const filePath = await PDFService.downloadPDF(url, docId);
     const text = await PDFService.extractTextFromPDF(filePath);
+
+    console.log(`##################`);
+    console.log(text);
+    console.log(`##################`);
     await PDFService.cleanupFile(filePath);
 
     const chunks = PDFService.splitText(text);
+    const totalTokens = await PDFService.calculateTotalTokens(chunks);
+
+    const estimatedCost = calculateEmbeddingCost(
+      totalTokens,
+      "text-embedding-3-small"
+    );
     const embeddings = await EmbeddingService.createEmbeddings(chunks);
 
     const addedAt = new Date().toISOString();
@@ -60,6 +71,8 @@ export const handler = async (event) => {
       docId,
       sourceUrl: url,
       chunksAdded: vectors.length,
+      totalTokens, // ⬅️ Here
+      estimatedCostUSD: Number(estimatedCost.toFixed(6)),
       addedAt,
       skipped: false,
     });

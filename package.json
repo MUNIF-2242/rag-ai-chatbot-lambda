@@ -12,6 +12,8 @@
     "lambda-multipart-parser": "^1.0.1",
     "openai": "^5.3.0",
     "pdf2json": "^3.1.6",
+    "tiktoken": "^1.0.21",
+    "tiktoken-node": "^0.0.7",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

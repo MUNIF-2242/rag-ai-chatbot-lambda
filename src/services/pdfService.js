@@ -5,6 +5,7 @@ import { promises as fs } from "fs";
 import path from "path";
 import os from "os"; // ✅ Cross-platform temp folder
 import { CONSTANTS } from "../utils/constants.js";
+import { countTokens } from "../utils/tokenizer.js";
 
 class PDFServiceClass {
   constructor(
@@ -90,6 +91,13 @@ class PDFServiceClass {
     } catch (error) {
       console.warn(`Could not delete file ${filePath}:`, error.message);
     }
+  }
+  async calculateTotalTokens(textChunks) {
+    let totalTokens = 0;
+    for (const chunk of textChunks) {
+      totalTokens += await countTokens(chunk);
+    }
+    return totalTokens;
   }
 }
 
