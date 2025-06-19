@@ -43,12 +43,7 @@ export const handler = async (event) => {
     await PDFService.cleanupFile(filePath);
 
     const chunks = PDFService.splitText(text);
-    const totalTokens = await PDFService.calculateTotalTokens(chunks);
 
-    const estimatedCost = calculateEmbeddingCost(
-      totalTokens,
-      "text-embedding-3-small"
-    );
     const embeddings = await EmbeddingService.createEmbeddings(chunks);
 
     const addedAt = new Date().toISOString();
@@ -71,8 +66,6 @@ export const handler = async (event) => {
       docId,
       sourceUrl: url,
       chunksAdded: vectors.length,
-      totalTokens, // ⬅️ Here
-      estimatedCostUSD: Number(estimatedCost.toFixed(6)),
       addedAt,
       skipped: false,
     });
