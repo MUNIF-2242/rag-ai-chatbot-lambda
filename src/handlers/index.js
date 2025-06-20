@@ -3,7 +3,6 @@ import PineconeService from "../services/pineconeService.js";
 import EmbeddingService from "../services/embeddingService.js";
 import { successResponse, errorResponse } from "../utils/response.js";
 import { validateUrl } from "../utils/validation.js";
-import { calculateEmbeddingCost } from "../utils/pricing.js";
 
 export const handler = async (event) => {
   try {
