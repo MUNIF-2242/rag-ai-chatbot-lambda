@@ -1,4 +1,4 @@
-service: rag-ai-chatbot-lambda
+service: ai-chatbot-lambda
 
 frameworkVersion: "3"
 
@@ -28,7 +28,7 @@ provider:
       - "*/*" # or just 'application/pdf' if you want to be specific
 
 custom:
-  s3BucketName: rag-ai-chatbot-pdfs-${self:provider.stage}
+  s3BucketName: ai-chatbot-pdfs-${self:provider.stage}
 
 functions:
   upload:

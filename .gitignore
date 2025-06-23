@@ -29,6 +29,6 @@ Thumbs.db
 
 
 #npx serverless offline --httpPort 20000
-#serverless deploy --stage prod --region us-east-1 --aws-profile prodProfile
-#serverless remove --stage prod --region us-east-1 --aws-profile prodProfile
+#serverless deploy --stage prod --region us-east-1 
+#serverless remove --stage prod --region us-east-1
 
