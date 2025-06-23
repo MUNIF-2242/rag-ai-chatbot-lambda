@@ -13,9 +13,6 @@
     "lambda-multipart-parser": "^1.0.1",
     "openai": "^5.3.0",
     "tesseract.js": "^6.0.1",
-    "tiktoken": "^1.0.21",
-    "tiktoken-node": "^0.0.7",
-    "uuid": "^9.0.1",
     "pdfjs-dist": "^3.11.174"
   },
   "devDependencies": {

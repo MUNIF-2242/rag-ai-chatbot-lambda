@@ -1,5 +1,5 @@
 export const CONSTANTS = {
-  INDEX_NAME: "rag-ai-chatbot-index",
+  INDEX_NAME: "ai-chatbot-index",
   REGION: "us-east-1",
   CLOUD: "aws",
   EMBEDDING_DIMENSION: 1536,

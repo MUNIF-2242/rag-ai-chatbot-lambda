@@ -5,11 +5,8 @@ import path from "path";
 import os from "os";
 import { createCanvas } from "canvas";
 import Tesseract from "tesseract.js";
-// This will work with pdfjs-dist@3.11.174
 import pkg from "pdfjs-dist/legacy/build/pdf.js";
-
 import { CONSTANTS } from "../utils/constants.js";
-import { countTokens } from "../utils/tokenizer.js";
 
 const { getDocument } = pkg;
 
@@ -154,14 +151,6 @@ class PDFServiceClass {
     } catch (error) {
       console.warn(`Could not delete file ${filePath}:`, error.message);
     }
-  }
-
-  async calculateTotalTokens(textChunks) {
-    let totalTokens = 0;
-    for (const chunk of textChunks) {
-      totalTokens += await countTokens(chunk);
-    }
-    return totalTokens;
   }
 
   // Enhanced cleanup method for complete cleanup

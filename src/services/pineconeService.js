@@ -7,7 +7,7 @@ class PineconeServiceClass {
       apiKey: process.env.PINECONE_API_KEY,
     });
 
-    this.indexName = process.env.PINECONE_INDEX_NAME || "rag-ai-chatbot-index";
+    this.indexName = process.env.PINECONE_INDEX_NAME || "ai-chatbot-index";
     this.index = null;
   }
 
